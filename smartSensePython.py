@@ -17,5 +17,5 @@ else:
         if not line.startswith('vm.swappiness'):
             print("writing lines " + line)
             f.write(line)
-    f_a.write("vm.swappiness = 0")
+            # f_a.write("vm.swappiness = 0")
 print("Complete")
