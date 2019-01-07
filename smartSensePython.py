@@ -16,9 +16,7 @@ elif 'vm.swappiness' in f.read():
     for line in lines:
         if not line.startswith('vm.swappiness'):
             f.write(line) 
-            with open("/etc/sysctl.conf", "a") as f_a:
-                f_a.write("vm.swappiness = 0")
-
+            open("/etc/sysctl.conf", "a").write("vm.swappiness = 0")
 else:
     print("Setting not found")
     f_a.write("vm.swappiness = 0")
