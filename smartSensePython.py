@@ -3,6 +3,7 @@ print("Script Started")
 
 try:
     f = open("/etc/sysctl.conf")
+    f_a = open("/etc/sysctl.conf", "a")
     lines = f.readlines
 except FileNotFoundError:
     print("File not found")
@@ -15,8 +16,8 @@ elif 'vm.swappiness' in f.read():
     print("Setting parameter")
     for line in lines:
         if not line.startswith('vm.swappiness'):
-            f.write(line) 
-            open("/etc/sysctl.conf", "a").write("vm.swappiness = 0")
+            f.write(line)
+            f_a.write("vm.swappiness = 0")
 else:
     print("Setting not found")
     f_a.write("vm.swappiness = 0")
