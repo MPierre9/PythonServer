@@ -8,7 +8,7 @@ except FileNotFoundError:
     print("File not found")
     sys.exit()
 
-if 'vm.swappiness = 0' in f.readf():
+if 'vm.swappiness = 0' in f.read():
     print("Setting found and set correctly")
 elif 'vm.swappiness' in f.read():
     print("Setting found and set incorrectly")
