@@ -11,7 +11,9 @@ except FileNotFoundError:
 
 if 'vm.swappiness = 0' in f.read():
     print("Setting found and set correctly")
+    f.close()
 else:
+    f.close()
     print("Writing")
     with open('/etc/sysctl.conf') as old_sys, open('/etc/sysctl.conf') as new_sys:
         for line in old_sys:
