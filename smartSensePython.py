@@ -12,10 +12,10 @@ except FileNotFoundError:
 if 'vm.swappiness = 0' in f.read():
     print("Setting found and set correctly")
 else:
-    print("Setting parameter")
-    for line in lines:
-        if not line.startswith('vm.swappiness'):
-            print("writing lines " + line)
-            f.write(line)
-            # f_a.write("vm.swappiness = 0")
+    print("Writing")
+    with open('/etc/sysctl.conf') as old_sys, open('/etc/sysctl.conf') as new_sys:
+        for line in old_sys:
+            if not line.startswith("vm.swappiness"):
+                new_sys.write(line)
+                f_a.write("vm.swappiness = 0")
 print("Complete")
