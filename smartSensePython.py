@@ -6,6 +6,7 @@ f = open('/etc/sysctl.conf')
 lines = f.readlines()
 for line in lines:
     if not line.startswith("vm.swappiness"):
+        print("line: " + line)
         f.write(line)
 
 f.close()
