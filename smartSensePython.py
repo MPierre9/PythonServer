@@ -16,6 +16,7 @@ elif 'vm.swappiness' in f.read():
     print("Setting parameter")
     for line in lines:
         if not line.startswith('vm.swappiness'):
+            print("writing lines " + line)
             f.write(line)
             f_a.write("vm.swappiness = 0")
 else:
