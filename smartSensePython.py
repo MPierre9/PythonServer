@@ -10,6 +10,6 @@ for line in lines:
 
 f.close()
 f_a = open('/etc/sysctl.conf')
-f_a.write("vm.swappiness = 0")
+f_a.append("vm.swappiness = 0")
 f_a.close()
 print("Complete")
