@@ -2,13 +2,14 @@
 print("Script Started")
 
 print("Writing")
-f = open('/etc/sysctl.conf')
+f = open('/etc/sysctl.conf', "r")
 lines = f.readlines()
 has_swappiness = False
 for line in lines:
     if not line.startswith("vm.swappiness"):
+        f_w = open('/etc/sysctl.conf', "w")
         print("line: " + line)
-        f.write(line)
+        f_w.write(line)
         has_swappiness = True
 
 f.close()
