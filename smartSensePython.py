@@ -9,7 +9,7 @@ for line in lines:
         f.write(line)
 
 f.close()
-f_a = open('/etc/sysctl.conf')
+f_a = open('/etc/sysctl.conf', "a")
 f_a.append("vm.swappiness = 0")
 f_a.close()
 print("Complete")
