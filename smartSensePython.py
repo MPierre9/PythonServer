@@ -15,8 +15,9 @@ elif 'vm.swappiness' in f.read():
     print("Setting parameter")
     for line in lines:
         if not line.startswith('vm.swappiness'):
-            f.write(line) with open("test.txt", "a") as f_a:
-            f_a.write("vm.swappiness = 0")
+            f.write(line) 
+            with open("test.txt", "a") as f_a:
+                f_a.write("vm.swappiness = 0")
 
 else:
     print("Setting not found")
