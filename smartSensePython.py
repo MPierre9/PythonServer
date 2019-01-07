@@ -11,16 +11,11 @@ except FileNotFoundError:
 
 if 'vm.swappiness = 0' in f.read():
     print("Setting found and set correctly")
-elif f.read().startswith('vm.swappiness'):
-    print("Setting found and set incorrectly...")
+else:
     print("Setting parameter")
     for line in lines:
         if not line.startswith('vm.swappiness'):
             print("writing lines " + line)
             f.write(line)
-            f_a.write("vm.swappiness = 0")
-else:
-    print("Setting not found")
     f_a.write("vm.swappiness = 0")
-
 print("Complete")
