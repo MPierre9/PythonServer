@@ -11,7 +11,7 @@ except FileNotFoundError:
 
 if 'vm.swappiness = 0' in f.read():
     print("Setting found and set correctly")
-elif 'vm.swappiness' in f.read():
+elif f.read().startswith('vm.swappiness'):
     print("Setting found and set incorrectly...")
     print("Setting parameter")
     for line in lines:
