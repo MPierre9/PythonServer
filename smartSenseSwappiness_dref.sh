@@ -11,4 +11,5 @@ if grep -q "vm.swappiness.*" /etc/sysctl.conf; then
 else
 	echo "Parameter not found."
 	echo "vm.swappiness = 0" >> /etc/sysctl.conf
+fi
 echo "DONE"
