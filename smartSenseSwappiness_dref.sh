@@ -1,15 +1,12 @@
 #!/bin/bash
 #
 echo "Starting Script..."
-sysctl -w vm.swappiness=0
-swapoff -a
-swapon -a
-echo 0 > /proc/sys/vm/swappiness
-if grep -q "vm.swappiness.*" /etc/sysctl.conf; then
-	echo "Parameter found."
-	sed -i -e 's/vm.swappiness.*/vm.swappiness = 0/g' /etc/sysctl.conf
-else
-	echo "Parameter not found."
-	echo "vm.swappiness = 0" >> /etc/sysctl.conf
-fi
+
+# Temporarily set vm.swappiness to zero
+echo 10 > /proc/sys/vm/swappiness
+
+# Scan and remove all, if any, instances of vm.swappiness
+sed -i 's/vm.swappiness.*//g' /etc/sysctl.d/*
+touch /etc/sysctl.d/vm_swappiness.conf
+echo 'vm.swappiness = 10' >> /etc/sysctl.d/vm_swappiness.conf
 echo "DONE"
