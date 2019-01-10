@@ -26,6 +26,7 @@ function TEST() {
     }
     declare -f COMMAND
     echo "EXECUTING..."
+    echo $out
     catch out err COMMAND
     if [[ "$prc" -eq "0" && "$out" =~ "^net.core.somaxconn = ([0-9]+)$" ]] && (( ${BASH_REMATCH[1]} < 8192 ))
     then
@@ -39,7 +40,7 @@ function TEST() {
 
         # Create config file with setting
         touch /etc/sysctl.d/net_core_somaxconn.conf
-        echo 'net.core.somaxconn = 8192' > /etc/sysctl.d/net_core_somaxconn.conf
+        echo 'net.core.somaxconn = 8192' >> /etc/sysctl.d/net_core_somaxconn.conf
     else
         echo "OK - net.core.somaxconn = ${BASH_REMATCH[@]}"
     fi
