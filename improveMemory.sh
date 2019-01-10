@@ -29,6 +29,8 @@ function TEST() {
     function set_vm_dirty_ratio() {
         echo "vm.dirty_ratio..."
     }
+
+    set_vm_dirty_ratio
     # command=$(sysctl -ap 2>/dev/null | grep net.core.somaxconn) # scans all sysctl settings looking for 'net.core.somaxconn'
     # pat="^net\.core\.somaxconn = ([0-9]+)$"
     # if [[ $command =~ $pat ]] && (( BASH_REMATCH[1] < 8192 )); then
