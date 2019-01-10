@@ -21,23 +21,50 @@ printf '( exit %q )' "$ret" >&2;
 }
 
 function TEST() {
-    command=$(sysctl -ap 2>/dev/null | grep net.core.somaxconn) # scans all sysctl settings looking for 'net.core.somaxconn'
-    pat="^net\.core\.somaxconn = ([0-9]+)$"
-    if [[ $command =~ $pat ]] && (( BASH_REMATCH[1] < 8192 )); then
-        echo "FAIL - Bad net.core.somaxconn = ${BASH_REMATCH[1]}. Fixing."
+
+    function set_vm_dirty_background_ratio() {
+        echo "vm.dirty_background_ratio..."
+        command=$(sysctl -ap 2>/dev/null | grep vm.dirty_background_ratio) # scans all sysctl settings looking for 'vm.dirty_background_ratio'
+        pat="^vm\.dirty_background_ratio = ([0-9]+)$"
+        if [[ $command =~ $pat ]] && (( BASH_REMATCH[1] < 20 )); then
+            echo "FAIL - Bad vm.dirty_background_ratio = ${BASH_REMATCH[1]}. Fixing."
+            # Temporarily set net to 8192
+            echo 20 > /proc/sys/vm/dirty_background_ratio
+
+            # Scan and remove all, if any, instances of net.core/somaxconn
+            sed -i -e '/^\.*vm.dirty_background_ratio*$/d' /etc/sysctl.d/*
+            sed -i -e '/^\.*vm.dirty_background_ratio*$/d' /usr/lib/sysctl.d/*
+
+            # Create config file with setting
+            touch /etc/sysctl.d/vm_dirty_background_ratio.conf
+            echo 'vm.dirty_background_ratio = 20' > /etc/sysctl.d/vm_dirty_background_ratio.conf
+        else
+            echo "OK - vm.dirty_background_ratio = ${BASH_REMATCH[1]}"
+        fi
+    }
+
+    function set_vm_dirty_ratio() {
+        echo "vm.dirty_ratio..."
+    }
+
+    set_vm_dirty_background_ratio
+    # command=$(sysctl -ap 2>/dev/null | grep net.core.somaxconn) # scans all sysctl settings looking for 'net.core.somaxconn'
+    # pat="^net\.core\.somaxconn = ([0-9]+)$"
+    # if [[ $command =~ $pat ]] && (( BASH_REMATCH[1] < 8192 )); then
+    #     echo "FAIL - Bad net.core.somaxconn = ${BASH_REMATCH[1]}. Fixing."
         # Temporarily set net to 8192
-        echo 8192 > /proc/sys/net/core/somaxconn
+        # echo 8192 > /proc/sys/net/core/somaxconn
 
         # Scan and remove all, if any, instances of net.core/somaxconn
-        sed -i -e '/^\.*net.core.somaxconn*$/d' /etc/sysctl.d/*
-        sed -i -e '/^\.*net.core.somaxconn*$/d' /usr/lib/sysctl.d/*
+    #     sed -i -e '/^\.*net.core.somaxconn*$/d' /etc/sysctl.d/*
+    #     sed -i -e '/^\.*net.core.somaxconn*$/d' /usr/lib/sysctl.d/*
 
-        # Create config file with setting
-        touch /etc/sysctl.d/net_core_somaxconn.conf
-        echo 'net.core.somaxconn = 8192' > /etc/sysctl.d/net_core_somaxconn.conf
-    else
-        echo "OK - net.core.somaxconn = ${BASH_REMATCH[1]}"
-    fi
+    #     # Create config file with setting
+    #     touch /etc/sysctl.d/net_core_somaxconn.conf
+    #     echo 'net.core.somaxconn = 8192' > /etc/sysctl.d/net_core_somaxconn.conf
+    # else
+    #     echo "OK - net.core.somaxconn = ${BASH_REMATCH[1]}"
+    # fi
 
 }
 
