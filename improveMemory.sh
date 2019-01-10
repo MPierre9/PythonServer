@@ -47,7 +47,7 @@ function TEST() {
         echo "Running vm.dirty_ratio..."
         command=$(sysctl -ap 2>/dev/null | grep vm.dirty_ratio) # scans all sysctl settings looking for 'vm.dirty_ratio'
         pat="^vm\.dirty_ratio = ([0-9]+)$"
-        if [[ $command =~ $pat ]] && (( BASH_REMATCH[1] < 20 )); then
+        if [[ $command =~ $pat ]] && (( BASH_REMATCH[1] < 50 )); then
             echo "FAIL - Bad vm.dirty_ratio = ${BASH_REMATCH[1]}. Fixing."
             # Temporarily set net to 8192
             echo 50 > /proc/sys/vm/dirty_ratio
