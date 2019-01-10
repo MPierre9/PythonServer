@@ -21,15 +21,9 @@ printf '( exit %q )' "$ret" >&2;
 }
 
 function TEST() {
-    function COMMAND() {
-        sysctl -ap 2>/dev/null | grep net.core.somaxconn # scans all sysctl settings looking for 'net.core.somaxconn'
-    }
-    declare -f COMMAND
-    echo "EXECUTING..."
-    echo $out
-    catch out err COMMAND
-    if [[ "$prc" -eq "0" && "$out" =~ "^net.core.somaxconn = ([0-9]+)$" ]] && (( ${BASH_REMATCH[1]} < 8192 ))
-    then
+    COMMAND = $(sysctl -ap 2>/dev/null | grep net.core.somaxconn) # scans all sysctl settings looking for 'net.core.somaxconn'
+    pat="^net\.core\.somaxconn = ([0-9]+)$"
+    if [[ $command =~ $pat ]] && (( BASH_REMATCH[1] < 8192 )); then
         echo "FAIL - Bad net.core.somaxconn = ${BASH_REMATCH[1]}. Fixing."
         # Temporarily set net to 8192
         echo 8192 > /proc/sys/net/core/somaxconn
