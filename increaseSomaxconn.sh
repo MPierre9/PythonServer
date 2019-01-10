@@ -36,7 +36,7 @@ function TEST() {
         touch /etc/sysctl.d/net_core_somaxconn.conf
         echo 'net.core.somaxconn = 8192' > /etc/sysctl.d/net_core_somaxconn.conf
     else
-        echo "OK - net.core.somaxconn = ${BASH_REMATCH[@]}"
+        echo "OK - net.core.somaxconn = ${BASH_REMATCH[1]}"
     fi
 
 }
